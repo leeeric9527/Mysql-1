@@ -71,6 +71,8 @@ Day02
                 select * from i where cztime < (now()- interval 1 year);
             * 查询1天以前,３天以内的充值记录:
                 self * from i where cztime > (now()- interval 3 day) and cztime < (now() - interval 1 day);
+        3.表示未来的时间节点
+            
 
 
 
