@@ -72,7 +72,44 @@ Day02
             * 查询1天以前,３天以内的充值记录:
                 self * from i where cztime > (now()- interval 3 day) and cztime < (now() - interval 1 day);
         3.表示未来的时间节点
+            et:
+                从当前系统时间向后推算一年,明年now()-interval -1 year
+
+
+
+2.表结构操作(操作字段):
+    1.语法:alter table 表名　执行动作;
+    2.添加字段(add):
+        alter table 表名 add 字段名　数据类型; 直接在最后一列的位置添加新字段
+
+        alter table 表名 add 字段名　数据类型　first; 
+
+        alter table 表名 add 字段名　数据类型　after;
+            应用:
+                1)alter table i add idcard int first;  把idcard这个字段添加到字段的首部
+                2)alter table i add address char(20) after money; 把address这个字段放到money字段的后面
+    3.删除字段:
+        alter table 表名 drop 字段名;
+
+    4.修改数据类型:
+        alter table 表名 modify 字段名 新数据类型;
+
+    5.表的重命名(rename):
+        alter table 表名 rename 新的表名;
+
+    6.修改字段名
+
+        alter table 表名 change 字段名 新的字段名　新的数据类型
+        
+        alter table t1 change phbumber phnumber int(11);
+
+    7.查看表结构
+        desc 表名;
+
+
+        
             
+
 
 
 
