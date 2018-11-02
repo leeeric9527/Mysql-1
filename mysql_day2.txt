@@ -1,0 +1,77 @@
+Day02
+1.MYSQL　数据类型
+    1.数值类型
+    2.字符类型
+    3.枚举类型
+        1.枚举 enum,是一个字符串对象,可以将一些不重复的字符串存储成一个预定义的集合;必须
+        从一个集合中选取,才是合法值.最多可以列举65535个值,枚举经常用来实现单选;
+            et: 
+                creat table userinfo(id intmname,char(10),sex enum('男','女','保密'))   
+            特点:
+                枚举中的数据,从左到右会自动跟分配索引,从1开始,查询数据时,可以根据字符串查询,也可以根据索引值查询
+                select * from userinfo where sex='男';
+                等价于:
+                select * from userinfo where sex = 1;
+        2.集合
+            集合是一种特殊的枚举类型,可以指定一个选项列表,但是字段可以去范围内的多个值.可以实现多选，
+            类型名使用set表示
+        et:
+            create table couseTab (sportcourse set('篮球','足球','羽毛球'))
+    4.日期时间类型
+        1.data:"YYYY-MM-DD"
+        2.time:"HH:mm:ss"
+        3.datatime:"YYYY-MM-DD hh:mm:ss"
+        4.timestamp:"YYYY-MM-DD hh:mm:ss"
+        注意: 
+            1)datatime:不给值,默认返回NULL
+            2)tinesstamp:不给值,默认返回系统当前时间
+                create table i(id int,usename char(10),password char(10),money int,birthday date,cztime timestamp);                
+                insert into i values(1,"xm",'123456',200,'2000-10-10',"2018-8-31 10:12:33");
+                insert into i values(3,"xds",'123456',400,"2005/04/10","20151012121212");
+                +------+----------+----------+-------+------------+---------------------+
+                | id   | usename  | password | money | birthday   | cztime              |
+                +------+----------+----------+-------+------------+---------------------+
+                |    1 | xm       | 123456   |   200 | 2000-10-10 | 2018-08-31 10:12:33 |
+                |    2 | xiaohong | 123456   |  1000 | 2003-11-11 | 2018-11-02 10:56:41 |
+                |    3 | xb       | 123456   |   400 | 2005-04-10 | 2015-10-12 12:12:12 |
+                |    3 | xds      | 123456   |   400 | 2005-04-10 | 2015-10-12 12:12:12 |
+                |    4 | xds      | 123456   |   400 | 2005-04-10 | 2018-11-02 11:08:25 |
+                +------+----------+----------+-------+------------+---------------------+
+
+            3)日期格式:"2000/11/11 10:10:10" or "20181010113012" 格式都可以
+
+    5.日期时间函数:
+        1)now()返回当前系统时间(年月日时分秒)
+        2)curdate() 返回当前的日期(年月日)
+            应用:insert into i values(5,"zhangben",'1234',2000,curdate(),now());
+                 5 | zhangben | 1234     |  2000 | 2018-11-02 | 2018-11-02 11:35:35 |
+        3)curtime()    返回当前时间(时分秒)
+        以下三种多用于查找:
+        4)year(date)   返回指定日期的年份
+        5)data(date)　 返回指定日期的年月日
+        6)time(date)   返回指定日期的时分秒
+        
+        练习:
+            1.查找10月份的充值信息:
+                select usename from i where date(cztime) >= "20151001" and date(cztime) <= "20151031";
+            2.查找2018年11月2日10:00-12:00的充值信息
+                select * from i where date(cztime)="20181102" and time(cztime) >="100000" and time(cztime) <= "120000";
+            3.删除表中的一条记录:
+                delete 
+    6.日期时间格式
+        1.语法格式
+            select * from 表名 where 字段名 运算符(时间-interval 时间单位)
+            时间单位:
+            　et:
+                1day | 2hour | 1 minute | 1 year | 1mouth ｜
+        2.练习:
+            *查询一天以内的充值记录
+                select * from i where cztime > (now() - interval 1 day);
+            * 查询一天前的充值记录
+                select * from i where cztime < (now()- interval 1 year);
+            * 查询1天以前,３天以内的充值记录:
+                self * from i where cztime > (now()- interval 3 day) and cztime < (now() - interval 1 day);
+
+
+
+ 
