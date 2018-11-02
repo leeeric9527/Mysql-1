@@ -115,6 +115,10 @@ Day02
     4.更新数据
         1)　update 表名 set 字段1＝值,字段2＝值,....where 条件;
         2)  update 必须写where条件 
+        应用：   -修改字段名id2的信息
+                update hero set name="典韦",sex="男",country="魏国" where id=2;
+  
+                
 
         
             
