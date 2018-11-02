@@ -103,9 +103,18 @@ Day02
         
         alter table t1 change phbumber phnumber int(11);
 
-    7.查看表结构
+    7.查看表结构							
         desc 表名;
-
+        
+ 3.表记录管理
+    1.插入数据　insert into 表名 values(),(),....;
+    2.查询数据  select * from 表名 where 条件;
+    3.删除数据:
+        1)  delete from 表名 where 条件l;
+        2)　如果省略where条件,delete from 表名; 表示清空所有记录
+    4.更新数据
+        1)　update 表名 set 字段1＝值,字段2＝值,....where 条件;
+        2)  update 必须写where条件 
 
         
             
