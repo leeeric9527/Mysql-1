@@ -28,7 +28,7 @@ mysql day2　基础知识笔记  2018/11/5
                 魏国    260
                 吴国    180
                 select country,avg(gongji) from sanguo group by country;
-                执行流程：　先分组,再聚合,最厚去重
+                执行流程：　先分组,再聚合,最后去重
             2).查看所有国家的男英雄中,英雄数量最多的国家前2名,显示国家名称和英雄数量
                 select country,count(id) from sanguo where sex="男" group by country order by count(id) desc limit 2;
 
@@ -42,7 +42,7 @@ mysql day2　基础知识笔记  2018/11/5
                     6) 分页:limit 分页查询
             3).注意:
                 1.如果select后字段和group by 之后不一致,则必须对该字段进行聚合处理(聚合函数)
-                2.having语句的存在弥补了where关键字不能语句和函数联合使用的不足,where智能操作表中实际存在的字段
+                2.having语句的存在弥补了where关键字不能语句和函数联合使用的不足,where只能操作表中实际存在的字段
         3.having：对分组聚合后的结果进行进一步筛选
             1)找出平均攻击力大于105的国家的前两名,显示国家名称和平均攻击力
                 select country,avg(gongji) from sanguo group by country having avg(gongji) > 105 order by avg(gongji) desc limit 2;
@@ -54,3 +54,95 @@ mysql day2　基础知识笔记  2018/11/5
             2.注意:
                 1.distinct和from 之间所有字段都相同才会去重
                 2.distinct不能对任何字段做聚合处理
+        5.查询表记录时可以做数学运算
+            1)运算符: +  -  *  /  %
+            2)示例:
+                查询时所有英雄的攻击力翻倍
+2.嵌套查询
+    1)定义:把内层的查询结果作为外层的查询条件
+    2)语法:
+        select ... from 表名 where 字段名 运算符(查询);
+    3)示例:
+        1.把攻击值小于平均值的英雄名字和攻击值显示出来
+        select name,gongji from sanguo where gongji < (select avg(gongji) from sanguo);
+
+        2.找出每个国家攻击力最高的英雄名字和攻击值
+            select name,country,gongji from sanguo where gongji in (select max(gongji) from sanguo group by country);
+            +--------+---------+--------+
+            | name   | country | gongji |
+            +--------+---------+--------+
+            | 孙权   | 吴国   　 |    100 |
+            | 貂蝉    | 魏国   　|    666 |
+            |        | 蜀国     |   1005 |
+            +--------+---------+--------+
+            **上面一条语句改进:可去掉重复的数据
+            select name,gongji from sanguo where (country,gongji) in (select country,max(gongji) from sanguo group by country);
+３.多表查询
+    1,两种方式
+        1.笛卡尔积(不加where条件)
+            select 字段1,字段2 from 表1,表2;(笛卡尔积)
+        2.多表查询(加where条件)
+            ...from 表1,表2 where 条件;
+    2.示例:
+        1.显示省市县的详细信息
+            select sheng.s_name,city.c_name,xian.x_name from sheng,city,xian where sheng.s_id=city.cfather_id and city.c_id = xian.xfather_id;
+            +-----------+--------------+-----------+
+            | s_name    | c_name       | x_name    |
+            +-----------+--------------+-----------+
+            | 河北省     | 石家庄市      | 正定县     |
+            | 湖北省     | 武汉市        | 武昌区     |
+            +-----------+--------------+-----------+
+
+4.连接查询:
+    1.内连接(显示所有符合条件的记录)
+        1.语法格式:
+            select 字段名 from 表1　inner join 表2　on 条件 inner join 表3 on 条件;
+
+            et1:利用内连接的方式显示省市信息
+            select sheng.s_nane,city.c_name from sheng inner join city on sheng.s_id = city.cfather_id;
+
+            et2:利用内连接的方式显示省市县的信息
+            select sheng.s_name,city.c_name,xian.x_name from sheng inner join city on sheng.s_id = city.cfather_id inner join xian on city.c_id = xian.xfather_id;
+    
+
+    2.外连接
+        1)左连接(left)
+            定义:以左表为主显示查询结果
+            select sheng.s_name,city.c_name,xian.x_name from sheng inner join city on sheng.s_id = city.cfather_id inner join xian on city.c_id = xian.x_fatherid;
+        2)右连接(right)    
+            定义:以右表为主显示查询结果,
+            select sheng.s_name,city.c_name from sheng right join city on sheng.s_id = city.cfather_id;
+        示例:   
+            显示省市县详细信息,所有的市全部显示  
+            select sheng.s_name,city.c_name,xian.x_name from sheng right join city on sheng.s_id = city.cfather_id left join xian on city.c_id = xian.xfather_id;
+5.约束
+    1.非空约束(not full)
+    2.默认约束(defult 默认值)
+        示例:create table t3(id int(3) zerofill,usename varchar(20) not null,sex enum("M","F","S") not null default "S")charset=utf8;
+                    +---------+--------------------------+------+-----+---------+-------+
+                    | Field   | Type                     | Null | Key | Default | Extra |
+                    +---------+--------------------------+------+-----+---------+-------+
+                    | id      | int(3) unsigned zerofill | YES  |     | NULL    |       |
+                    | usename | varchar(20)              | NO   |     | NULL    |       |
+                    | sex     | enum('M','F','S')        | NO   |     | S       |       |
+                    +---------+--------------------------+------+-----+---------+-------+
+
+
+6.索引(BTREE):
+    1.定义
+        对数据库中表的一列或者多列的值进行排序的一种结构
+    2.优点:加快数据的检索速度
+    3.缺点:
+        1)占用物理存储空间
+        2)当对表中的数据更新时,索引需要动态维护,占用系统资源,降低数据的维护速度
+    4.索引示例:
+        1)开始运行时间检测
+        mysql> set profiling=1;
+        2)执行一条查询命令(没有创建索引)
+        select name from t1 where name = 'lucy88888';
+        3)在name字段创建索引
+        create index name on t1(name);
+        4)在执行一条查询命令
+        select name from t1 where name = 'lucy88888';
+        5)对比执行时间
+        mysql> show profiles;
