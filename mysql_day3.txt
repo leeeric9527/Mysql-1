@@ -1,0 +1,56 @@
+
+mysql day2　基础知识笔记  2018/11/5
+===============================================================================================
+
+1.select 查询
+        select *
+        select 字段
+        select 聚合函数 where...
+
+        1.聚合函数
+            最大值,最小值,求和,平均值,计数
+            1)分类
+                avg(字段名)
+                sum(字段名)
+                max(字段名)
+                min(字段名)
+                count(字段名):统计该字段记录的个数
+            2)攻击力最大值是多少?
+                select max(gongji) from sanguo;
+            3) 统计id name 连个字段分别有几条记录?
+                select count(id),count(name) from sanguo;
+                # 空值null不会被统计,""会被统计
+            4)统计蜀国攻击力大于200的英雄数量;
+                select count(id) as number from sanguo where country="蜀国" and gongji>200;
+        2.group by :给查询的结果进行分组
+            1).计算每个国家的平均攻击力
+                蜀国    387
+                魏国    260
+                吴国    180
+                select country,avg(gongji) from sanguo group by country;
+                执行流程：　先分组,再聚合,最厚去重
+            2).查看所有国家的男英雄中,英雄数量最多的国家前2名,显示国家名称和英雄数量
+                select country,count(id) from sanguo where sex="男" group by country order by count(id) desc limit 2;
+
+                完整的查询语句由以下关键字组成:
+                    顺序为书写顺序，序号是mysql执行顺序
+                    3) 查找:select　... 聚合函数(字段名) from 表名
+                    1) 条件:where
+                    2) 分组:group by
+                    4) 筛选(去重):having 
+                    5) 排序:order by 
+                    6) 分页:limit 分页查询
+            3).注意:
+                1.如果select后字段和group by 之后不一致,则必须对该字段进行聚合处理(聚合函数)
+                2.having语句的存在弥补了where关键字不能语句和函数联合使用的不足,where智能操作表中实际存在的字段
+        3.having：对分组聚合后的结果进行进一步筛选
+            1)找出平均攻击力大于105的国家的前两名,显示国家名称和平均攻击力
+                select country,avg(gongji) from sanguo group by country having avg(gongji) > 105 order by avg(gongji) desc limit 2;
+        
+        4.distinct: 不显示字段的重复值
+            1.表中都有那些国家
+                select destinct country from sanguo;
+                select distinct country,name from sanguo;
+            2.注意:
+                1.distinct和from 之间所有字段都相同才会去重
+                2.distinct不能对任何字段做聚合处理
