@@ -25,7 +25,7 @@ Day02 MYSQL基础笔记     2018/11/2
         4.timestamp:"YYYY-MM-DD hh:mm:ss"
         注意: 
             1)datatime:不给值,默认返回NULL
-            2)tinesstamp:不给值,默认返回系统当前时间
+            2)timestamp:不给值,默认返回系统当前时间
                 create table i(id int,usename char(10),password char(10),money int,birthday date,cztime timestamp);                
                 insert into i values(1,"xm",'123456',200,'2000-10-10',"2018-8-31 10:12:33");
                 insert into i values(3,"xds",'123456',400,"2005/04/10","20151012121212");
