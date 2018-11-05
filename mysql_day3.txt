@@ -40,6 +40,7 @@ mysql day2　基础知识笔记  2018/11/5
                     4) 筛选(去重):having 
                     5) 排序:order by 
                     6) 分页:limit 分页查询
+            ----------select user_id,count(user_id) from comment group by user_id order by count(user_id) desc limit 10;--------
             3).注意:
                 1.如果select后字段和group by 之后不一致,则必须对该字段进行聚合处理(聚合函数)
                 2.having语句的存在弥补了where关键字不能语句和函数联合使用的不足,where只能操作表中实际存在的字段
@@ -146,3 +147,32 @@ mysql day2　基础知识笔记  2018/11/5
         select name from t1 where name = 'lucy88888';
         5)对比执行时间
         mysql> show profiles;
+7.索引的分类
+    1.普通索引(index) && 唯一索引(unique)　(用的算法都是BTREE)
+        1)使用规则：
+            1.可设置多个字段
+            2.index 无约束,unique字段值不能重复但可为NULL
+            3.把经常用来查询的字段设置为索引字段
+            4.index的KEY标志:MUL unique:UNI
+        2)创建表时创建索引
+            create table 表名(index(name),index(id),index(phonenumber)
+        
+        结合示例:
+            创建两个类型的索引: create table t5(id int,name varchar(20),age tinyint,phnumber bigint,index(name),unique(phnumber))charset=utf8;
+                            +----------+-------------+------+-----+---------+-------+
+                            | Field    | Type        | Null | Key | Default | Extra |
+                            +----------+-------------+------+-----+---------+-------+
+                            | id       | int(11)     | YES  |     | NULL    |       |
+                            | name     | varchar(20) | YES  | MUL | NULL    |       |
+                            | age      | tinyint(4)  | YES  |     | NULL    |       |
+                            | phnumber | bigint(20)  | YES  | UNI | NULL    |       |
+                            +----------+-------------+------+-----+---------+-------+
+        3)已有表中创建
+        create [unique] index 索引名　on 表名(字段名);
+        
+        4)查看索引
+            1.desc 表名; ——> Key标志
+            2.show index from 表的名字； or show index from 表名\G
+        5)删除索引
+            drop index 索引名　on 表名;
+
