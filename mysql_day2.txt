@@ -247,44 +247,10 @@ Day02 MYSQL基础笔记     2018/11/2
                     +------+-----------+--------+--------+------+---------+
                 3.显示数据中的第20-25条数据
                     limit 19,6
-    4.select 查询
-        select *
-        select 字段
-        select 聚合函数 where...
+    
 
-        1.聚合函数
-            最大值,最小值,求和,平均值,计数
-            1)分类
-                avg(字段名)
-                sum(字段名)
-                max(字段名)
-                min(字段名)
-                count(字段名):统计该字段记录的个数
-            2)攻击力最大值是多少?
-                select max(gongji) from sanguo;
-            3) 统计id name 连个字段分别有几条记录?
-                select count(id),count(name) from sanguo;
-                # 空值null不会被统计,""会被统计
-            4)统计蜀国攻击力大于200的英雄数量;
-                select count(id) as number from sanguo where country="蜀国" and gongji>200;
-        2.group by :给查询的结果进行分组
-            1.计算每个国家的平均攻击力
-                蜀国    387
-                魏国    260
-                吴国    180
-                select country,avg(gongji) from sanguo group by country;
-                执行流程：　先分组,再聚合,最厚去重
-            2.查看。。。
-                select country,count(id) from sanguo where sex="男" group by country order by count(id) desc limit 2;
 
-            1.完整的查询语句由以下关键字组成:
-                顺序为书写顺序，序号是mysql执行顺序
-                3) 查找:select　... 聚合函数(字段名) from 表名
-                1) 条件:where
-                2) 分组:group by
-                4) 筛选(去重):having 
-                5) 排序:order by 
-                6) 分页:limit 分页查询
+
 
                 
 
