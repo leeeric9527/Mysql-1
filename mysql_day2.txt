@@ -7,7 +7,7 @@ Day02 MYSQL基础笔记     2018/11/2
         1.枚举 enum,是一个字符串对象,可以将一些不重复的字符串存储成一个预定义的集合;必须
         从一个集合中选取,才是合法值.最多可以列举65535个值,枚举经常用来实现单选;
             et: 
-                creat table userinfo(id intmname,char(10),sex enum('男','女','保密'))   
+                creat table userinfo(id int,name char(10),sex enum('男','女','保密'))   
             特点:
                 枚举中的数据,从左到右会自动跟分配索引,从1开始,查询数据时,可以根据字符串查询,也可以根据索引值查询
                 select * from userinfo where sex='男';
