@@ -49,7 +49,7 @@ Day02 MYSQL基础笔记     2018/11/2
         3)curtime()    返回当前时间(时分秒)
         以下三种多用于查找:
         4)year(字段名)   返回指定日期的年份
-        5)data(字段名)　 返回指定日期的年月日
+        5)date(字段名)　 返回指定日期的年月日
         6)time(字段名)  返回指定日期的时分秒
     
         练习:
@@ -58,7 +58,8 @@ Day02 MYSQL基础笔记     2018/11/2
             2.查找2018年11月2日10:00-12:00的充值信息
                 select * from i where date(cztime)="20181102" and time(cztime) >="100000" and time(cztime) <= "120000";
             3.删除表中的一条记录:
-                delete 
+                delete from 表名 where 条件; 
+
     6.日期时间格式
         1.语法格式
             select * from 表名 where 字段名 运算符(时间-interval 时间单位)
@@ -92,7 +93,7 @@ Day02 MYSQL基础笔记     2018/11/2
     3.删除字段:
         alter table 表名 drop 字段名;
 
-    4.修改数据类型:
+    4.修改字段数据类型:
         alter table 表名 modify 字段名 新数据类型;
 
     5.表的重命名(rename):
