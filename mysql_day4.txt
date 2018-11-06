@@ -71,8 +71,62 @@ Day04笔记
         1.主表　从表字段数据类型要一致
         2.主表的被参考字段:主键
     4.实例:
-        表1 缴费信息表(财务)
-        
+        表1 缴费信息表(财务)  建立:create table jftab(id int primary key,name varchar(20),class char(5),money smallint)charset=utf8;
+                                    insert into jftab values(1,'唐伯虎','AID09',300),(2,'祝枝山','AID09',300),(3,'点秋香','AID09',300);
+        表2 班主任信息表（从表)  create table bjtab(stu_id int,name varchar(20),money smallint,foreign key(stu_id) references jftab(id) on delete cascade on update cascade)chatset=utf8;
+        注意:设置id关联后,主表中的id值修改从表的id也会跟着改变,删除也是如此
+    5.删除
+        alter table 表名　drop forgin key 外键名;
+        外建名:show create table 表名;
+        示例:
+        alter table bjtab drop foreign key bjtab_ibfk_1;
+        alter table bjtab　add forgin key(stu_id) references jftab(id);
+        delete from jftab where name = "点秋香"; 就阔以删除了
 
+    6.已有表添加
+        alter table 表名　add forgin key(........)
 
-
+    7.级联动作都有哪些?
+        1.cascade
+            数据级联删除　更新(参考字段) 
+        2.restrict(默认)
+            从表有相关记录,不允许主表操作
+        3.set null
+            主表删除　更新,从表相关联记录字段值设置为NULL
+3.锁
+    1.目的:解决客户端并发访问的冲突问题
+    2.锁分类:
+        1)锁类型
+            1.读锁(共享锁)
+                select:加读锁之后别人不能更改表记录,但可以进行查询
+                
+            2.写锁(互斥锁,排他锁)
+                update:加写锁后别人不能查　也不能改
+        2)锁粒度
+            1.表级锁：加读锁　写锁
+                     MyISAM 搜索引擎 只支持表级锁
+            2.行级锁：加读锁　写锁
+    
+4.存储引擎(处理表的处理器)
+    1.基本操作：
+        1.查看所有的存储引擎
+            mysql> show engines;
+        2.查看已有表的存储引擎
+            show create table 表名;
+        3.指定存储引擎:
+            create table 表名(....)engine=MyISAM;   
+        4.已有表;
+            alter table 表名 engine=INnoDB
+    2.常用存储引擎的特点:
+        1.INnoDB
+            1)支持外键　事务　事务回滚
+            2)支持行级锁
+            3)共享表空间
+            注意:   InnoDB的特点:表名.frm表结构和索引文件　　　表名.ibd存放表记录　　  表名.MYI单独存档索引
+        2.MyISAM
+            1)支持表级锁
+            2)独享表空间
+            表名.frm:表结构
+            表名.MYD:表记录(my data)
+            表名.MYI:索引文件(my index)
+            
