@@ -171,9 +171,38 @@ Day04笔记
                 2)拷贝
                     sudo cp ~/scoreTable.csv  /var/lib/mysql-files/
                     -查看的时候首先 sufo -i 获取超级用户管理权限
-                    -
+                    -chmod 644 scoreTable.csv
+                
              3.执行数据导入语句 
 
 
             拓展:把库的格式改为latin1
                 alter database MOSHOU charset latin1;
+                在前面加一个自增长字段:
+                alter table scoretab add bianhao int(3) zerofill primary key auto_intocrement first;
+8.数据导出:
+    1.作用:将数据库中标记录导出到系统文件里
+    2.语法格式:
+        select ... from 表名 where 条件 into outfile "/var/lib/mysql-files/文件名/" fields terminated by "分隔符" lines terminated by "/n";
+    3.示例:
+        1)把 sheng 表中所有记录导出来,sheng.csv
+9.mysql的用户账户管理
+    1.开启Mysql远程连接
+        1)sudo -i
+        2)cd /etc/mysql/mysql.conf.d/
+        3)subl mysqld.cnf
+            #bind-address=127.0.0.1 (本地环回地址)
+        4)重启服务
+            /etc/init.d/mysql restart
+    2.添加一个授权用户
+        1)用root用户登录mysql
+        2)进行授权
+            mysql> grant 权限列表 on 库名.表名 to "用户名"@"%" identified by "密码" with grant option;
+        　权限列表: all privileges,select update 
+        　库.表: *.*  库名.*
+    3.示例:
+        1.添加授权用户tiger,密码123,对所有库的所有表有所有权限
+            grant all on *.* to "tiger"@"%" identified by "123" with grant option;
+        2.添加用户rabbit,密码123,对db4库有所有权限 
+            grant select on db4.* to "rabbit"@"%" identified by "123" with grant option;
+    
