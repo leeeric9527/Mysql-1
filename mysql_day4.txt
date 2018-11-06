@@ -72,7 +72,7 @@ Day04笔记
         2.主表的被参考字段:主键
     4.实例:
         表1 缴费信息表(财务)  建立:create table jftab(id int primary key,name varchar(20),class char(5),money smallint)charset=utf8;
-                                    insert into jftab values(1,'唐伯虎','AID09',300),(2,'祝枝山','AID09',300),(3,'点秋香','AID09',300);
+                                     
         表2 班主任信息表（从表)  create table bjtab(stu_id int,name varchar(20),money smallint,foreign key(stu_id) references jftab(id) on delete cascade on update cascade)charset=utf8;
         注意:设置id关联后,主表中的id值修改从表的id也会跟着改变,删除也是如此
     5.删除
