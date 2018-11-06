@@ -131,7 +131,49 @@ Day04笔记
             表名.MYI:索引文件(my index)
         3.MEMORY
             表结构存储在硬盘中,表记录存储在内存中,服务/主机重启后,表结构还在,表记录消失
-        如何决定使用哪个存储引擎:
-            1.执行查询多的表用MyISAM(使用INnoDB浪费资源); 任意一个操作都会有一个表锁
-            2.执行写操作多的表用InnoDB
-            
+    3.如何决定使用哪个存储引擎:
+        1.执行查询多的表用MyISAM(使用INnoDB浪费资源); 任意一个操作都会有一个表锁
+        2.执行写操作多的表用InnoDB
+5.数据备份(mysqldump,在linux终端中操作)
+    1.完全备份
+        1.命令格式: mysqldunp -u用户名　－p 源库名 > ~/XXX.sql
+        2.源库名表示方式
+            --all-databases     备份所有库
+            库名                 备份单个库
+            -B 　库1 库2 库3      备份多个库
+            库名 表1 表2 表3       备份制定库的多张表
+        示例:mysqldump -uroot -p -B MOSHOU > db4MOSHOU.sql
+
+    2.增量备份
+
+6.数据恢复(linux终端操作)
+    1.命令格式
+        mysql -uroot -p 目标库名 < xxx.sql
+        mysql -uroot -p db4 < db4.sql
+    2.从所有库备份中恢复某一个库(--one-database)
+        mysql -uroot -p --one-database MOSHOU < all.sql
+    3. 在MOSHOU.sheng新增1条记录
+    insert into sheng(s_id,s_name)
+    4.注意:
+        1.恢复库时,如果库不存在,则必须先创建空库
+        2.恢复原来库时,恢复到原库会将表中的数据覆盖,新增表不会删除
+7.数据导入:
+    1.作用:把文件系统导入到数据库表中
+    2.语法格式:
+        load data infile "/var/lib/mysql-files/文件名" into table 表名 fields terminated by "分隔符" lines terminated by "\n"   
+    3.把scoreTable.csv文件导入到数据库表中
+        步骤：1.在数据库创建对应的表
+                create table scoretab(id int,name varchar(20),score float(5,2),phnum char(11),class char(7))charset=utf8;
+
+             2.把文件拷贝到数据库的搜索路径中
+                1)查看搜索路径
+                    show variables like "secure_file_priv"; or show variables like "secure_%";  --模糊查询
+                2)拷贝
+                    sudo cp ~/scoreTable.csv  /var/lib/mysql-files/
+                    -查看的时候首先 sufo -i 获取超级用户管理权限
+                    -
+             3.执行数据导入语句 
+
+
+            拓展:把库的格式改为latin1
+                alter database MOSHOU charset latin1;
