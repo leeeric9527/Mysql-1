@@ -129,4 +129,4 @@ Day04笔记
             表名.frm:表结构
             表名.MYD:表记录(my data)
             表名.MYI:索引文件(my index)
-            
+
