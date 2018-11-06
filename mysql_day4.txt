@@ -1,0 +1,78 @@
+- group by:如果select 后出现的字段没有在group by 后出现,则必须对该字段进行聚合处理
+- distinct:  select distinct 字段1,字段2　from 表名
+- select 字段1*2 as name1,字段2+10 as name2 from 表;
+- 多表查询
+    1.笛卡尔积:不加where条件
+    2.加where条件,只显示匹配到的记录
+
+****************************************************************************************
+Day04笔记
+1.索引
+    1.主键(primary key) 自增长属性(auto_increment)
+        - 使用规则:1.一个表中只能有一个主键字段
+                2.约束:字段值不允许重复,且不能为NULL
+                3.KEY标志:PRI
+                4.通常设置记录编号的字段id,能唯一锁定一条记录
+    2.创建表时:
+        create table 表名(id int primary key auto_increment,.......)auto_increment=1000,charset=utf8,engine=INnoDB;
+        
+        示例:
+        create table t1(id int primary key auto_increment,name varchar(20) not null)auto_increment=1000,charset=utf8;
+        or
+        create table 表名(id int,name varchar(20),primary(id,name)) ----> 复合主键,不经常用
+            +-------+-------------+------+-----+---------+----------------+
+            | Field | Type        | Null | Key | Default | Extra          |
+            +-------+-------------+------+-----+---------+----------------+
+            | id    | int(11)     | NO   | PRI | NULL    | auto_increment |
+            | name  | varchar(20) | NO   |     | NULL    |                |
+            +-------+-------------+------+-----+---------+----------------+
+
+            +------+-----------+
+            | id   | name      |
+            +------+-----------+
+            | 1000 | 王伟超  　  |
+            | 1001 | 张奔       |
+            | 1002 | 安付伟     |
+            | 1003 | 陈华齐     |
+            | 1004 | 庞瑞       |
+            +------+-----------+
+
+        注意:如果删除了一个用户或者记录之后,再添加记录不在从当前开始增加,能锁定唯一一条记录.
+        例:delete from t1 where id = 1004;
+           insert into t1 values('庞瑞涛');
+            +------+-----------+
+            | id   | name      |
+            +------+-----------+
+            | 1000 | 王伟超    |
+            | 1001 | 张奔      |
+            | 1002 | 安付伟    |
+            | 1003 | 陈华齐    |
+            | 1005 | 庞瑞涛    |
+            +------+-----------+
+    
+    3.在已经创建的表中----添加主键
+        alter table 表名 add primary key(id);
+    
+    4.删除一个主键
+        1.删除自增长属性(modify)
+        et: alter table 表名 modify id int;
+        2.删除主键(drop)
+        alter table 表名 drop primary key;
+        注意:首先删除增长属性,然后删除主键;
+    
+2.外键:
+    1.定义:让当前表字段的值在另一个表的范围内选择
+    2.语法:
+        foreign key(参考字段名)
+        references 主表(被参考字段名)
+        on delete 级联动作
+        on update 级联动作
+    3.使用规则
+        1.主表　从表字段数据类型要一致
+        2.主表的被参考字段:主键
+    4.实例:
+        表1 缴费信息表(财务)
+        
+
+
+
