@@ -97,9 +97,10 @@ mysql day2　基础知识笔记  2018/11/5
 4.连接查询:
     1.内连接(显示所有符合条件的记录)
         1.语法格式:
-            select 字段名 from 表1　inner join 表2　on 条件 inner join 表3 on 条件;
+            select 字段名 from 表1　inner join 表2　on  条件 inner join 表3 on 条件;
 
             et1:利用内连接的方式显示省市信息
+            select 字段名 from 表１　inner/left/right join 表2　on 条件;*******************************************
             select sheng.s_nane,city.c_name from sheng inner join city on sheng.s_id = city.cfather_id;
 
             et2:利用内连接的方式显示省市县的信息
@@ -168,7 +169,7 @@ mysql day2　基础知识笔记  2018/11/5
                             | phnumber | bigint(20)  | YES  | UNI | NULL    |       |
                             +----------+-------------+------+-----+---------+-------+
         3)已有表中创建
-        create [unique] index 索引名　on 表名(字段名);
+        create unique index 索引名　on 表名(字段名);
         
         4)查看索引
             1.desc 表名; ——> Key标志
