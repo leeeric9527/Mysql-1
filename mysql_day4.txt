@@ -76,8 +76,8 @@ Day04笔记
         表2 班主任信息表（从表)  create table bjtab(stu_id int,name varchar(20),money smallint,foreign key(stu_id) references jftab(id) on delete cascade on update cascade)charset=utf8;
         注意:设置id关联后,主表中的id值修改从表的id也会跟着改变,删除也是如此
     5.删除
-        alter table 表名　drop forgin key 外键名;
-        外建名:show create table 表名;
+        alter table 表名　drop forgin key 外键名;　删除外键名之后级联动作会自动变成默认restrict***********
+        查看外建名:show create table 表名;
         示例:
         alter table bjtab drop foreign key bjtab_ibfk_1;
         alter table bjtab　add forgin key(stu_id) references jftab(id);
@@ -133,7 +133,7 @@ Day04笔记
             表结构存储在硬盘中,表记录存储在内存中,服务/主机重启后,表结构还在,表记录消失
     3.如何决定使用哪个存储引擎:
         1.执行查询多的表用MyISAM(使用INnoDB浪费资源); 任意一个操作都会有一个表锁
-        2.执行写操作多的表用InnoDB
+        2.执行写操作多或者更新操作多的表用InnoDB
 5.数据备份(mysqldump,在linux终端中操作)
     1.完全备份
         1.命令格式: mysqldunp -u用户名　－p 源库名 > ~/XXX.sql
@@ -152,6 +152,7 @@ Day04笔记
         mysql -uroot -p db4 < db4.sql
     2.从所有库备份中恢复某一个库(--one-database)
         mysql -uroot -p --one-database MOSHOU < all.sql
+        --one-databse  恢复一个库
     3. 在MOSHOU.sheng新增1条记录
     insert into sheng(s_id,s_name)
     4.注意:
