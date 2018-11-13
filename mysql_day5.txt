@@ -4,7 +4,7 @@ Day04回顾
     id int primary key auto_increment,
     alter table 表名 add primary key(字段名);
   2. 删除
-    1. alter table 表名 modify id int;
+    1. alter table 表名 modify id int;(修改主键的数据类型))
     2. alter table 表名 drop primary key;
   3. 指定起始值
     1. create table 表名(...)auto_increment=1000;
