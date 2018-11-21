@@ -4,7 +4,7 @@ from hashlib import sha1
 menu = '''(1) 注册
 (2)登录
 (q)退出
-请选择(1/2/q):'''
+请选择(1 / 2 / q ):'''
 while True:
     choice = input(menu)
     if choice.strip()=='1':
@@ -34,7 +34,8 @@ while True:
                 print("注册成功")
                 break
             else:
-                print('密码不一致')
+                print('密码不一致\n')
+                continue
     elif choice.strip() == '2':
         #登录功能**************************************************
         sqlh = Mysqlpython('db5')

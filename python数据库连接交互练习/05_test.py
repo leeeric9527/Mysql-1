@@ -13,4 +13,3 @@ c = sqlh.Many('select * from t1',1)
 print(c)
 b = sqlh.All("select * from t1")
 print(b)
-
